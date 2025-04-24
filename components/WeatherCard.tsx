@@ -30,6 +30,9 @@ async function getWeather(city: string) {
 export default function WeatherDashboard() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [weatherDay2, setWeatherDay2] = useState<WeatherData | null>(null);
+  const [weatherDay3, setWeatherDay3] = useState<WeatherData | null>(null);
+  const [weatherDay4, setWeatherDay4] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [tempUnit, setTempUnit] = useState("C");
@@ -46,6 +49,9 @@ export default function WeatherDashboard() {
       const data = await getWeather(city);
       // From the array, select the first set of data as it is the current date
       const weatherToday = data[0];
+      const weatherday2 = data[1];
+      const weatherday3 = data[2];
+      const weatherday4 = data[3];
       
       setWeather({
         date: weatherToday.date,
@@ -53,6 +59,30 @@ export default function WeatherDashboard() {
         humidity: weatherToday.humidity,
         temperature: weatherToday.temperature,
         weather: weatherToday.weather,
+      });
+
+      setWeatherDay2({
+        date: weatherday2.date,
+        wind_speed: weatherday2.wind_speed,
+        humidity: weatherday2.humidity,
+        temperature: weatherday2.temperature,
+        weather: weatherday2.weather,
+      });
+
+      setWeatherDay3({
+        date: weatherday3.date,
+        wind_speed: weatherday3.wind_speed,
+        humidity: weatherday3.humidity,
+        temperature: weatherday3.temperature,
+        weather: weatherday3.weather,
+      });
+
+      setWeatherDay4({
+        date: weatherday4.date,
+        wind_speed: weatherday4.wind_speed,
+        humidity: weatherday4.humidity,
+        temperature: weatherday4.temperature,
+        weather: weatherday4.weather,
       });
     } catch (err) {
       setError("Unable to fetch weather data.");
@@ -84,6 +114,21 @@ export default function WeatherDashboard() {
 
   const tempSymbol = tempUnit === "C" ? "°C" : "°F";
 
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+  
+    // Get ordinal suffix
+    const getOrdinal = (n: number) => {
+      const s = ['th', 'st', 'nd', 'rd'],
+        v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    };
+  
+    return `${getOrdinal(day)} ${month}`;
+  }
+
   return (
     <div style={{height:'100vh',width:'100%',}} className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       <div style={{height:'100vh',width:'100%',}} className="flex flex-col md:flex-row">
@@ -96,20 +141,20 @@ export default function WeatherDashboard() {
             
             <div className="text-center">
               <div className="text-5xl font-bold mb-2">
-                {convertTemp(weather.temperature.current)}{tempSymbol}
+                {Math.trunc(convertTemp(weather.temperature.current))}{tempSymbol}
               </div>
               <div className="text-2xl font-medium mb-4">{weather.weather}</div>
             </div>
             
             <div className="text-center text-gray-600">
-              <div className="font-medium">{weather.date}</div>
+              <div className="font-medium">{formatDate(weather.date)}</div>
               <div>{city}</div>
             </div>
           </div>
         )}
 
         {/*Main section */}
-        <div className="p-6 md:w-3/3">
+        <div className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 md:w-3/3">
           {/* search bar */}
           <div style = {{width:'60%', justifySelf: 'center'}} className="flex mb-6">
             <div className="flex-grow">
@@ -169,26 +214,29 @@ export default function WeatherDashboard() {
 
           {weather && (
             <>
-              {/* Temp */}
+              {/* 3-day forecast */}
               <div className="mb-6">
                 <div className="grid grid-cols-3 gap-4">
                   <div className="border border-gray-200 rounded p-4 text-center">
+                  <div className="font-medium mb-2">{formatDate(weatherDay2.date)}</div>
+                    <div className="text-lg font-semibold">
+                      {Math.trunc(convertTemp(weatherDay2.temperature.morn))}{tempSymbol}
+                    </div>
                     <div className="font-medium mb-2">Morning</div>
-                    <div className="text-lg font-semibold">
-                      {convertTemp(weather.temperature.morn)}{tempSymbol}
-                    </div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
-                    <div className="font-medium mb-2">Day</div>
+                  <div className="font-medium mb-2">{formatDate(weatherDay3.date)}</div>
                     <div className="text-lg font-semibold">
-                      {convertTemp(weather.temperature.day)}{tempSymbol}
+                      {Math.trunc(convertTemp(weatherDay3.temperature.morn))}{tempSymbol}
                     </div>
+                    <div className="font-medium mb-2">Morning</div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
-                    <div className="font-medium mb-2">Evening</div>
+                  <div className="font-medium mb-2">{formatDate(weatherDay4.date)}</div>
                     <div className="text-lg font-semibold">
-                      {convertTemp(weather.temperature.eve)}{tempSymbol}
+                      {Math.trunc(convertTemp(weatherDay4.temperature.morn))}{tempSymbol}
                     </div>
+                    <div className="font-medium mb-2">Morning</div>
                   </div>
                 </div>
               </div>
