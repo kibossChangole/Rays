@@ -1,4 +1,3 @@
-import Image from "next/image";
 import WeatherCard from "../../components/WeatherCard";
 
 export default function Home() {

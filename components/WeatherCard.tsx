@@ -21,7 +21,7 @@ type WeatherData = {
 };
 
 async function getWeather(city: string) {
-  const res = await fetch(`http://127.0.0.1:8888/weather?city=${city}`);
+  const res = await fetch(`https://rays-9sx6.onrender.com/weather/?city=${city}`);
   if (!res.ok) throw new Error("Failed to fetch weather");
   const data = await res.json();
   return data;
@@ -84,7 +84,8 @@ export default function WeatherDashboard() {
         temperature: weatherday4.temperature,
         weather: weatherday4.weather,
       });
-    } catch (err) {
+    } catch (error) {
+      console.error(error);  // Log the error
       setError("Unable to fetch weather data.");
     } finally {
       setLoading(false);
@@ -218,8 +219,8 @@ export default function WeatherDashboard() {
           )}
 
           {!weather && !loading && !error && (
-            <div className="text-center p-12 text-gray-500">
-              Enter a city name and click "GO" to see the weather
+            <div className='text-center p-12 text-gray-500'>
+              Enter a city name and click GO to see the weather
             </div>
           )}
 
@@ -230,34 +231,42 @@ export default function WeatherDashboard() {
             </div>
           )}
 
-          {weather && (
+          
+          {weather &&  (
             <>
+            
               {/* 3-day forecast */}
               <div className="mb-6">
                 <div className="grid grid-cols-3 gap-4">
                   <div className="border border-gray-200 rounded p-4 text-center">
-                  <div className="font-medium mb-2">{formatDate(weatherDay2.date)}</div>
+                  <div className="font-medium mb-2">{formatDate(weatherDay2?.date ?? "Default Date")}</div>
+                  {weatherDay2 && weatherDay2 !== null && (
                     <div style={{justifyItems:"center"}} className="text-lg font-semibold">
                       {getWeatherIconsmall(weatherDay2.weather)}
 
                       {Math.trunc(convertTemp(weatherDay2.temperature.morn))}{tempSymbol}
                     </div>
+                    )}
                     <div className="font-medium mb-2">Morning</div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
-                  <div className="font-medium mb-2">{formatDate(weatherDay3.date)}</div>
+                  <div className="font-medium mb-2">{formatDate(weatherDay3?.date ?? "Default Date")}</div>
+                  {weatherDay3 && weatherDay3 !== null && (
                     <div style={{justifyItems:"center"}} className="text-lg font-semibold">
                       {getWeatherIconsmall(weatherDay3.weather)}
                       {Math.trunc(convertTemp(weatherDay3.temperature.morn))}{tempSymbol}
                     </div>
+                     )}
                     <div className="font-medium mb-2">Morning</div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
-                  <div className="font-medium mb-2">{formatDate(weatherDay4.date)}</div>
+                  <div className="font-medium mb-2">{formatDate(weatherDay4?.date ?? "Default Date")}</div>
+                   {weatherDay4 && weatherDay4 !== null && (
                     <div style={{justifyItems:"center"}} className="text-lg font-semibold">
                       {getWeatherIconsmall(weatherDay4.weather)}
                       {Math.trunc(convertTemp(weatherDay4.temperature.morn))}{tempSymbol}
                     </div>
+                    )}
                     <div className="font-medium mb-2">Morning</div>
                   </div>
                 </div>
