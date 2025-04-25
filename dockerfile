@@ -1,8 +1,8 @@
 # Use PHP 8.2-fpm as a parent image
 FROM php:8.2-fpm
 
-# Install necessary PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install necessary PHP extensions and git
+RUN apt-get update && apt-get install -y git && docker-php-ext-install pdo pdo_mysql
 
 # Set the working directory to the backend folder inside rays/rays-backend
 WORKDIR /app/rays/rays-backend
