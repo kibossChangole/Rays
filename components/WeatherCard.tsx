@@ -91,7 +91,22 @@ export default function WeatherDashboard() {
     }
   };
 
+  // Weather Icons
   const getWeatherIcon = (condition: string) => {
+    const lowercaseCondition = condition?.toLowerCase() || "";
+    
+    if (lowercaseCondition.includes("sun") || lowercaseCondition.includes("clear")) {
+      return <Sun className="w-40 h-40" />;
+    } else if (lowercaseCondition.includes("cloud") && lowercaseCondition.includes("sun")) {
+      return <CloudSun className="w-40 h-40" />;
+    } else if (lowercaseCondition.includes("cloud")) {
+      return <Cloud className="w-40 h-40" />;
+    } else {
+      return <CloudSun className="w-40 h-40" />;
+    }
+  };
+
+  const getWeatherIconsmall = (condition: string) => {
     const lowercaseCondition = condition?.toLowerCase() || "";
     
     if (lowercaseCondition.includes("sun") || lowercaseCondition.includes("clear")) {
@@ -105,6 +120,8 @@ export default function WeatherDashboard() {
     }
   };
 
+
+  //Temperature conversion
   const convertTemp = (temp: number) => {
     if (tempUnit === "F") {
       return Math.round((temp * 9/5) + 32);
@@ -114,6 +131,7 @@ export default function WeatherDashboard() {
 
   const tempSymbol = tempUnit === "C" ? "°C" : "°F";
 
+  //dates formatting e.g. "21st April"
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -134,8 +152,8 @@ export default function WeatherDashboard() {
       <div style={{height:'100vh',width:'100%',}} className="flex flex-col md:flex-row">
         {/* Current weather panel */}
         {weather && (
-          <div className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 md:w-1/3 flex flex-col justify-between">
-            <div className="flex justify-center mb-4">
+          <div style={{justifyContent: "center"}} className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 md:w-1/3 flex flex-col justify-between">
+            <div  className="flex justify-center mb-4">
               {getWeatherIcon(weather.weather)}
             </div>
             
@@ -219,21 +237,25 @@ export default function WeatherDashboard() {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="border border-gray-200 rounded p-4 text-center">
                   <div className="font-medium mb-2">{formatDate(weatherDay2.date)}</div>
-                    <div className="text-lg font-semibold">
+                    <div style={{justifyItems:"center"}} className="text-lg font-semibold">
+                      {getWeatherIconsmall(weatherDay2.weather)}
+
                       {Math.trunc(convertTemp(weatherDay2.temperature.morn))}{tempSymbol}
                     </div>
                     <div className="font-medium mb-2">Morning</div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
                   <div className="font-medium mb-2">{formatDate(weatherDay3.date)}</div>
-                    <div className="text-lg font-semibold">
+                    <div style={{justifyItems:"center"}} className="text-lg font-semibold">
+                      {getWeatherIconsmall(weatherDay3.weather)}
                       {Math.trunc(convertTemp(weatherDay3.temperature.morn))}{tempSymbol}
                     </div>
                     <div className="font-medium mb-2">Morning</div>
                   </div>
                   <div className="border border-gray-200 rounded p-4 text-center">
                   <div className="font-medium mb-2">{formatDate(weatherDay4.date)}</div>
-                    <div className="text-lg font-semibold">
+                    <div style={{justifyItems:"center"}} className="text-lg font-semibold">
+                      {getWeatherIconsmall(weatherDay4.weather)}
                       {Math.trunc(convertTemp(weatherDay4.temperature.morn))}{tempSymbol}
                     </div>
                     <div className="font-medium mb-2">Morning</div>
