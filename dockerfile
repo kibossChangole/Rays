@@ -8,7 +8,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 WORKDIR /app/rays/rays-backend
 
 # Copy the backend files into the container (from rays/rays-backend to /app/rays/rays-backend)
-COPY rays/rays-backend/ /app/rays/rays-backend/
+COPY rays-backend/ /app/rays/rays-backend/
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
