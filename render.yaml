@@ -1,19 +1,28 @@
 services:
   - type: web
-    name: laravel-backend
-    env: php
+    name: rays-backend
+    env: docker
     plan: free
-    buildCommand: |
-      composer install --no-dev
-      php artisan config:cache
-      php artisan route:cache
-      chmod -R 775 storage bootstrap/cache
-    startCommand: php -S 0.0.0.0:10000 -t public
+    repo: https://github.com/kibossChangole/Rays
+    branch: main
+    dockerfilePath: Dockerfile
+    autoDeploy: true
     envVars:
       - key: APP_ENV
         value: production
+      - key: APP_DEBUG
+        value: false
       - key: APP_KEY
-        value: base64:TY42KRcoyt5fhSxnX2Vkik6O69zUwm/v+SQ7091ow+s=
-      - key: OPENWEATHER_API_KEY
-        value: your_api_key_here
-      # Add more env vars here...
+        sync: false
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: your-db-host
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: your-db-name
+      - key: DB_USERNAME
+        value: your-db-user
+      - key: DB_PASSWORD
+        sync: false
