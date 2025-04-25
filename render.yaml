@@ -1,28 +1,19 @@
 services:
   - type: web
     name: rays-backend
-    env: docker
+    env: node
     plan: free
-    repo: https://github.com/kibossChangole/Rays
     branch: main
-    dockerfilePath: Dockerfile
-    autoDeploy: true
+    buildCommand: |
+      apt-get update && apt-get install -y php-cli php-mbstring php-xml composer
+      composer install --no-dev --optimize-autoloader
+    startCommand: php -S 0.0.0.0:10000 -t public
     envVars:
+      - key: APP_KEY
+        sync: false
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
-      - key: APP_KEY
-        sync: false
-      - key: DB_CONNECTION
-        value: mysql
-      - key: DB_HOST
-        value: your-db-host
-      - key: DB_PORT
-        value: 3306
-      - key: DB_DATABASE
-        value: your-db-name
-      - key: DB_USERNAME
-        value: your-db-user
-      - key: DB_PASSWORD
+      - key: OPENWEATHER_API_KEY
         sync: false
