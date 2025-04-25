@@ -1,19 +1,25 @@
 services:
   - type: web
     name: rays-backend
-    env: node
-    plan: free
-    branch: main
+    env: docker
+    dockerfilePath: Dockerfile
     buildCommand: |
-      apt-get update && apt-get install -y php-cli php-mbstring php-xml composer
-      composer install --no-dev --optimize-autoloader
-    startCommand: php -S 0.0.0.0:10000 -t public
+      # You may specify custom build steps if needed, like setting up the database
+      echo "No build command needed for backend"
+    startCommand: php artisan serve --host=0.0.0.0 --port=80
     envVars:
       - key: APP_KEY
-        sync: false
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: false
-      - key: OPENWEATHER_API_KEY
-        sync: false
+        sync: true
+      - key: DB_CONNECTION
+        sync: true
+      # Add other environment variables for your database and app config here
+      - key: DB_HOST
+        sync: true
+      - key: DB_PORT
+        sync: true
+      - key: DB_DATABASE
+        sync: true
+      - key: DB_USERNAME
+        sync: true
+      - key: DB_PASSWORD
+        sync: true

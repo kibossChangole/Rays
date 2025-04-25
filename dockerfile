@@ -1,27 +1,23 @@
-FROM php:8.2-apache
+# Use an official PHP runtime as a parent image
+FROM php:8.0-fpm
 
-# Install required extensions
-RUN apt-get update && apt-get install -y \
-    libzip-dev zip unzip git curl \
-    && docker-php-ext-install zip pdo pdo_mysql
+# Install necessary PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Set the working directory to the backend folder inside rays/rays-backend
+WORKDIR /app/rays/rays-backend
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy project files
-COPY . .
+# Copy the backend files into the container (from rays/rays-backend to /app/rays/rays-backend)
+COPY rays/rays-backend/ /app/rays/rays-backend/
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install PHP dependencies
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expose port 80
+# Expose the necessary port
 EXPOSE 80
+
+# Run the PHP built-in server to serve the Laravel app
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]
