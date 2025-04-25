@@ -1,5 +1,5 @@
-# Use an official PHP runtime as a parent image
-FROM php:8.0-fpm
+# Use PHP 8.2-fpm as a parent image
+FROM php:8.2-fpm
 
 # Install necessary PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
