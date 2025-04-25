@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: laravel-backend
+    env: php
+    plan: free
+    buildCommand: |
+      composer install --no-dev
+      php artisan config:cache
+      php artisan route:cache
+      chmod -R 775 storage bootstrap/cache
+    startCommand: php -S 0.0.0.0:10000 -t public
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:TY42KRcoyt5fhSxnX2Vkik6O69zUwm/v+SQ7091ow+s=
+      - key: OPENWEATHER_API_KEY
+        value: your_api_key_here
+      # Add more env vars here...
