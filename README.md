@@ -5,6 +5,8 @@
 
 This project is a weather application built using **Next.js**, **TypeScript**, **Laravel**, **Tailwind CSS**, and **Three.js**. The app displays weather information, including temperature, weather conditions, and a background that simulates rain. It also features a lightning flicker effect for added realism. The backend is powered by **Laravel**, and Docker is used for containerizing the backend service.
 
+Link: https://rays-rho.vercel.app/
+
 ### Key Features:
 - **Real-time Weather Data**: Displays temperature, weather conditions, and a city name.
 - **Interactive Rain Animation**: Using Three.js to create a visually appealing rain effect in the background.
