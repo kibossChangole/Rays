@@ -149,11 +149,14 @@ export default function WeatherDashboard() {
   }
 
   return (
-    <div style={{height:'100vh',width:'100%',}} className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-      <div style={{height:'100vh',width:'100%',}} className="flex flex-col md:flex-row">
+    <div style={{width:'100%',}} className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="bg-black flex justify-center pt-12">
+        <img src="/rayslogo.jpg" alt="Logo" className="h-26 w-auto" />
+      </div>
+      <div style={{width:'100%',}} className="flex flex-col md:flex-row">
         {/* Current weather panel */}
         {weather && (
-          <div style={{justifyContent: "center"}} className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 md:w-1/3 flex flex-col justify-between">
+          <div style={{justifyContent: "center", backgroundColor: 'black',}} className=" p-6 md:w-1/3 flex flex-col justify-between">
             <div  className="flex justify-center mb-4">
               {getWeatherIcon(weather.weather)}
             </div>
@@ -173,21 +176,27 @@ export default function WeatherDashboard() {
         )}
 
         {/*Main section */}
-        <div className="bg-gradient-to-b from-blue-50 to-blue-100 p-6 md:w-3/3">
+        <div style={{backgroundColor:'black',}} className=" p-6 md:w-3/3">
+        
           {/* search bar */}
-          <div style = {{width:'60%', justifySelf: 'center'}} className="flex mb-6">
+          <div style = {{width:'100%', justifySelf: 'center', marginTop: '0vh'}} className="flex mb-6">
             <div className="flex-grow">
-              <form onSubmit={fetchWeather} className="flex">
+              <form onSubmit={fetchWeather} className="flex gap-10">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  style={{border: '0px',borderBottom: '1px solid',}}
+                  className="w-full border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   placeholder="Search city..."
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 />
                 <button 
-                  type="submit" 
-                  className="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600 transition-colors flex items-center justify-center"
+                  type="submit"
+                  style={{backgroundColor: 'transparent',
+                    border: '1px solid white',
+                    color: 'white',
+                    width: '100px',}} 
+                  className="text-white px-4 rounded-r hover:bg-blue-600 transition-colors flex items-center justify-center"
                   disabled={loading}
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "GO"}
@@ -196,14 +205,15 @@ export default function WeatherDashboard() {
             </div>
             <div className="ml-4 flex border border-gray-300 rounded">
               <button 
-                className={`px-3 py-2 ${tempUnit === 'C' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+               
+                className={`px-3 py-2 ${tempUnit === 'C' ? 'bg-black-500 text-white' : 'bg-white text-black'}`}
                 onClick={() => setTempUnit('C')}
                 type="button"
               >
                 °C
               </button>
               <button 
-                className={`px-3 py-2 ${tempUnit === 'F' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+                className={`px-3 py-2 ${tempUnit === 'F' ? 'bg-black500 text-white' : 'bg-white text-black'}`}
                 onClick={() => setTempUnit('F')}
                 type="button"
               >
@@ -219,7 +229,7 @@ export default function WeatherDashboard() {
           )}
 
           {!weather && !loading && !error && (
-            <div className='text-center p-12 text-gray-500'>
+            <div className='text-center p-12 text-gray-500 '>
               Enter a city name and click GO to see the weather
             </div>
           )}
@@ -273,7 +283,7 @@ export default function WeatherDashboard() {
               </div>
 
               {/* Temperature ranges */}
-              <div className="mb-6 border border-gray-200 rounded p-4">
+              <div className="mb-6  p-4">
                 <div className="font-medium mb-2">Temperature Range</div>
                 <div className="flex items-center justify-between">
                   <div className="text-blue-500 font-semibold">
@@ -293,7 +303,7 @@ export default function WeatherDashboard() {
 
               {/* wind and humidity */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="border border-gray-200 rounded p-4">
+                <div className="p-4">
                   <div className="text-gray-500 mb-2">Wind Status</div>
                   <div className="flex items-center justify-between">
                     <div className="text-3xl font-bold">{weather.wind_speed} km/h</div>
@@ -301,7 +311,7 @@ export default function WeatherDashboard() {
                   </div>
                 </div>
                 
-                <div className="border border-gray-200 rounded p-4">
+                <div className="p-4">
                   <div className="text-gray-500 mb-2">Humidity</div>
                   <div className="flex items-center justify-between">
                     <div className="text-3xl font-bold">{weather.humidity}%</div>
