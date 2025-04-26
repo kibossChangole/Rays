@@ -60,7 +60,7 @@ export default function RainBackground() {
           float flashTimer = fract(iTime);
           float flash = flashStart * step(flashTimer, flashDuration);
 
-          col *= mix(1.4, 3.0, flash);
+          col *= mix(2.0, 3.0, flash);
 
           fragColor = vec4(col, 1.0);
 

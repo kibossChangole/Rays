@@ -151,7 +151,7 @@ export default function WeatherDashboard() {
   return (
     <div style={{width:'100%',}} className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="bg-black flex justify-center pt-12">
-        <img src="/rayslogo.jpg" alt="Logo" className="h-26 w-auto" />
+        <img src="/Rayslogo.jpg" alt="Logo" className="h-26 w-auto" />
       </div>
       <div style={{width:'100%',}} className="flex flex-col md:flex-row">
         {/* Current weather panel */}
@@ -236,7 +236,7 @@ export default function WeatherDashboard() {
 
           {loading && (
             <div className="text-center p-12">
-              <Loader2 className="w-12 h-12 animate-spin mx-auto text-blue-500" />
+              <Loader2 className="w-12 h-12 animate-spin mx-auto text-white-500" />
               <p className="mt-4 text-gray-600">Loading weather data...</p>
             </div>
           )}
